@@ -1,0 +1,68 @@
+
+<div class="container-fluid demo  border border-info">
+    <div class="col-md-3" id="fe">
+        <a href="tdd/home.html">
+            <button style="text-align: center; background-color:slategrey; font-size: 1.1rem;">Unit
+                Tests</button></a>
+    </div>
+    <div class="col-md-9" id="fe">
+        <h1 style="text-align: center;">Greetings</h1>
+    </div>
+
+    <div class="col-md-12" id="fe">
+        <h4 style="text-align: center;" class="errorMsg"></h4>
+    </div>
+
+    <div class="col-md-9" id="fe">
+        <h4 style="text-align: justify; font-size: 1.2em">Please Enter With No Special characters or number and
+            select language</h4>
+    </div>
+
+    <form action="/greeting" method="POST">
+        <div class="row">
+
+            <div class="col-md-8">
+                <textarea class="text"
+                    style="margin:auto;text-align:center; font-style: oblique;font-weight: 500; color: blue;"
+                    rows="1"></textarea>
+            </div>
+            <div class="col-md-4">
+                <h4>
+                    Counter : <span class="counter">{{counter}}</span>
+                </h4>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <span style="margin: auto">
+                    <input type="radio" id="english" name="language" value="english">
+                    <label for="english" class="language">English</label>
+                    <input type="radio" id="shona" name="language" value="shona">
+                    <label for="shona" class="language">Shona</label>
+                    <input type="radio" id="zulu" name="language" value="zulu">
+                    <label for="zulu" class="language">isiZulu</label></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-1 btn-sep icon-info" class="btn" type="submit">Greet</button>
+            </div>
+
+            <div class="col-md-4">
+                <button class="btn btn-1 btn-sep icon-info btnClear"></button>
+            </div>
+        </div>
+</div>
+</form>
+
+<div class="col-md-12" id="fe">
+    <p style="text-align: center; font-style: oblique;" id="myList">{{greetMessage}}</p>
+</div>
+<br />
+<br />
+<div class="col-md-12" id="fe">
+    <ul style="text-align: center; font-style: oblique;" id="myList2">Greeting Messages <button>SHOW</button></ul>
+</div>

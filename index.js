@@ -26,7 +26,6 @@ app.use(bodyParser.json())
 app.get('/', function(req,res){
     
     res.render('index', {
-        name: greetings.greet(),
         counter: greetings.Counter(),
         greetMessage: greetings.greet(),
     });
@@ -35,10 +34,7 @@ app.get('/', function(req,res){
 app.post('/greeting', function(req, res){
     // console.log(req.body);
     greetings.greet(req.body.name);
-    greetings.pushNames(req.body.name);
-    greetings.Counter();
-
-    res.redirect("/");
+    greetings.Counter(req.body.Counter);
 });
 
 // app.post('/action', function(req, res){

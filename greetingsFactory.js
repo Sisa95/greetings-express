@@ -4,9 +4,9 @@ module.exports = function greetings(names){
 
     function greet(language, textArea){
 
-        var lowerCase = textArea.toLowerCase();
-        var index = textArea.charAt(0).toUpperCase(); //Changing case format of the 1st character.
-        var del = lowerCase.slice(1) //removing 1st character the name input
+        var lowerCase = escape(textArea).toLowerCase();
+        var index = escape(textArea).charAt(0).toUpperCase(); //Changing case format of the 1st character.
+        var del = escape(lowerCase).slice(1) //removing 1st character the name input
 
         textArea = index + del;
 

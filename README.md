@@ -1,1 +1,1 @@
-# greetings-express
+[![Build Status](https://travis-ci.com/Sisa95/greetings-express.svg?branch=main)](https://travis-ci.com/Sisa95/greetings-express)

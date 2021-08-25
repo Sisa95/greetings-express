@@ -52,10 +52,11 @@ app.post('/', function(req, res){
   
     if(textArea === ''){
         req.flash('info', 'Please enter name and select language');
-    } else if(textArea === "Invalid name"){
-        req.flash('info', "Invalid name" );
+    } else if(language === undefined){
+        req.flash('info', "Please select language" );
     }
     else {
+        console.log(language)
         greetings.greet(language, textArea);
         greetings.pushNames(textArea)
     }

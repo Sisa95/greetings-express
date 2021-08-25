@@ -1,17 +1,13 @@
-<form action="/greeting" method="POST">
+<form action="/" method="POST">
 
 <div class="container-fluid demo  border border-info">
-    <div class="col-md-3" id="fe">
-        <a href="tdd/home.html">
-            <button style="text-align: center; background-color:slategrey; font-size: 1.1rem;">Unit
-                Tests</button></a>
-    </div>
+    
     <div class="col-md-9" id="fe">
         <h1 style="text-align: center;">Greetings</h1>
     </div>
 
     <div class="col-md-12" id="fe">
-        <h4 style="text-align: center;" class="errorMsg"></h4>
+        <h4 style="text-align: center; font-family: 'Fjalla One', sans-serif; color:red" class="errorMsg">{{messages.info}}</h4>
     </div>
 
     <div class="col-md-9" id="fe">
@@ -24,7 +20,7 @@
             <div class="col-md-8">
                 <textarea class="text"
                     style="margin:auto;text-align:center; font-style: oblique;font-weight: 500; color: blue;"
-                    rows="1"></textarea>
+                    rows="1" name="textArea" ></textarea>
             </div>
             <div class="col-md-4">
                 <h4>
@@ -55,15 +51,13 @@
                 <button class="btn btn-1 btn-sep icon-info btnClear"></button>
             </div>
         </div>
-
+    </form>
         <div class="col-md-12" id="fe">
-    <p style="text-align: center; font-style: oblique;" id="myList">{{greetMessage}}</p>
+    <p style="text-align: center; font-style: oblique;" id="myList">{{message}}</p>
 </div>
-<br />
-<br />
 <div class="col-md-12" id="fe">
-    <ul style="text-align: center; font-style: oblique;" id="myList2">Greeting Messages <button>SHOW</button></ul>
+     <a href="/greeted_names" style="color: rgb(0, 22, 63); font-size: 1.2rem">Greeted Names</a>
 </div>
 </div>
-</form>
+
 

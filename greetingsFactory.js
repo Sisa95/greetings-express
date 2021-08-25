@@ -1,6 +1,10 @@
 module.exports = function greetings(names){
     
     let data = names || [];
+    var message = "";
+
+    //create map
+    var namesList = {};
 
     function greet(language, textArea){
 
@@ -18,27 +22,40 @@ module.exports = function greetings(names){
         }
 
         if(language === "english"){
-            return "Hello, " + textArea;
+            message = "Hello, " + textArea;
         } else if(language === "shona"){
-            return "Mhoro, " + textArea;
+            message = "Mhoro, " + textArea;
             
         } else if(language === "zulu"){
-            return "Sawubona, " + textArea;
+            message = "Sawubona, " + textArea;
         }
+    }
+
+    function greetFunction(){
+        return message;
     }
 
     function pushNames(textArea){
 
-        var lowerCase = textArea.toLowerCase();
-        var index = textArea.charAt(0).toUpperCase(); //Changing case format of the 1st character.
-        var del = lowerCase.slice(1) //removing 1st character the name input
+        var lowerCase = escape(textArea).toLowerCase();
+        var index = escape(textArea).charAt(0).toUpperCase(); //Changing case format of the 1st character.
+        var del = escape(lowerCase).slice(1) //removing 1st character the name input
 
         textArea = index + del;
 
-        if(!data.includes(textArea)){
+        var regex = /^[A-Za-z ]+$/;
+        var isValid = regex.test(textArea);
 
-        data.push(textArea)
+        if(!isValid){
+            return "Invalid name"; 
         }
+
+        if(namesList[textArea] === undefined){
+            namesList[textArea] = 1
+        } else{
+            namesList[textArea]++;
+        }
+
     }
 
     function clearTextInput(textArea){
@@ -48,11 +65,12 @@ module.exports = function greetings(names){
     }
 
     function Counter(){
-        return data.length;
+        var storedNames = Object.keys(namesList);
+        return storedNames.length
     }
 
     function dataList(){
-        return data;
+        return namesList;
     }
 
     function errorMessages(language, textArea){
@@ -73,5 +91,6 @@ module.exports = function greetings(names){
         pushNames,
         Counter,
         errorMessages,
+        greetFunction
     }
 }

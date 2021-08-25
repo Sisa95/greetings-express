@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Reggae+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
 @import url(//db.onlinewebfonts.com/c/388d4c308786c84a30904847f46525c8?family=Intro+Rust+G+Base+2+Line);
 
 
@@ -13,6 +14,9 @@ body {
 .container {
 	width: 100%;
 }
+a {
+    color: aliceblue;
+}
 
 .demo {
 	width: 90%;
@@ -26,20 +30,20 @@ body {
 	border-radius: 6px;
 	text-align: left;
 	color: black;
-	opacity: 0;
 	transition: all 0.3s ease;
 
 }
 
-.demo.active {
-	opacity: 1;
-	top: 0;
-}
 
 textarea{
     width: 80%;
     height: 30px;
     margin: auto;
+}
+#myList{
+    margin-top: 30px;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 1.3rem;
 }
 
 .btn {

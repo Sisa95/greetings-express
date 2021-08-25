@@ -1,6 +1,8 @@
 const express = require('express');
 const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
+const flash = require('express-flash');
+const session = require('express-session');
 const Greeting = require('./greetingsFactory');
 
 const app = express();
@@ -18,50 +20,64 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static('public'));
 
+ // initialise session middleware - flash-express depends on it
+ app.use(session({
+    secret : "<add a secret string here>",
+    resave: false,
+    saveUninitialized: true
+  }));
+
+  // initialise the flash middleware
+  app.use(flash());
+  
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 
 app.get('/', function(req,res){
-    
+    let greeting = greetings.greetFunction();
+    //console.log(greeting)
+   
     res.render('index', {
+        
         counter: greetings.Counter(),
-        greetMessage: greetings.greet(),
+        message : greeting
     });
 });
 
-app.post('/greeting', function(req, res){
-    // console.log(req.body);
-    greetings.greet(req.body.name);
-    greetings.Counter(req.body.Counter);
+app.post('/', function(req, res){
+
+    let {textArea, language} = req.body;
+  
+    if(textArea === ''){
+        req.flash('info', 'Please enter name and select language');
+    } else if(textArea === "Invalid name"){
+        req.flash('info', "Invalid name" );
+    }
+    else {
+        greetings.greet(language, textArea);
+        greetings.pushNames(textArea)
+    }
+
+    res.redirect("/")
 });
 
-// app.post('/action', function(req, res){
-    
-    
-//     settingsBill.recordAction(req.body.actionType)
-//     res.redirect('/');
-// });
+app.get("/greeted_names",function(req, res){
 
-// app.get('/actions', function(req, res){
-//     let actionsList = settingsBill.actions();
-//     actionsList.forEach(element => {
-//         element.currentTime = moment(element.timestamp).fromNow()
-//     });
-//     res.render('actions', {actions: actionsList});
+    res.render("greeted_names", {list: greetings.dataList()})
+})
 
-// });
+app.get("/counter/:textArea",function(req, res){
+ let namesGreet = req.params.textArea;
+ let namesCountered = greetings.dataList()
+ console.log(namesCountered)
 
-// app.get('/actions/:actionType', function(req, res){
-    
-//     let actionType = req.params.actionType;
-//     let actionsList = settingsBill.actionsFor(actionType);
-//     actionsList.forEach(element => {
-//         element.currentTime = moment(element.timestamp).fromNow()
-//     });
-//     res.render('actions', { actions: actionsList });
-// });
+    res.render("count_x_greeted", {
+        textArea: namesGreet,
+        counter: namesCountered[namesGreet]
+    })
+})
 
 const PORT = process.env.PORT || 3011;
 

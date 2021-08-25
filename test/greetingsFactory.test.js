@@ -11,7 +11,7 @@ describe('Greetings', function(){
     it("Should change input case, only the first character should in upper case", function(){
         let greeting = greetings();
         
-        assert.equal("Mhoro, Sisa",greeting.greet("shona","sIsA"));
+        assert.equal("Mhoro, Sisa",greeting.greetFunction());
     });
 
     it("Should display invalid name error when the entered name has special characters or numbers", function(){
@@ -35,7 +35,7 @@ describe('Greetings', function(){
 
         greeting.dataList();
         
-        assert.equal(0 , greeting.dataList());
+        assert.equal(0, greeting.Counter());
     });
 
     it("Should return an error message \"Please Enter Name\"", function(){

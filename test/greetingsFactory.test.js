@@ -1,5 +1,7 @@
 let assert = require("assert")
 let greetings = require("../greetingsFactory")
+
+const pool = require("./db");
 //let greeting = greetings()
 describe('Greetings', function(){
     // it("Should greet the person with their name", function(){

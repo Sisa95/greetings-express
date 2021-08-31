@@ -3,11 +3,30 @@ const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
-const Greeting = require('./greetingsFactory');
+const Greeting = require('./greetingsFactory'); 
+
+const pg = require("pg");
+const Pool = pg.Pool;
+
+// should we use a SSL connection
+let useSSL = false;
+let local = process.env.LOCAL || false;
+if (process.env.DATABASE_URL && !local){
+    useSSL = true;
+}
+// which db connection to use
+const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:codex123@localhost:5432/greetingsDB';
+
+const pool = new Pool({
+    connectionString,
+    ssl : useSSL
+  });
+
+
 
 const app = express();
 
-const greetings = Greeting();
+const greetings = Greeting(pool);
 
 const handlebarSetup = exphbs({
     partialsDir: "./views/partials",
@@ -35,9 +54,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 
-app.get('/', function(req,res){
-    let greeting = greetings.greetFunction();
-    //console.log(greeting)
+app.get('/',async function(req,res){
+    let greeting = await greetings.greetFunction();
+    console.log(greeting)
    
     res.render('index', {
         
@@ -46,7 +65,7 @@ app.get('/', function(req,res){
     });
 });
 
-app.post('/', function(req, res){
+app.post('/', async (req, res) => {
 
     let {textArea, language} = req.body;
   
@@ -56,9 +75,9 @@ app.post('/', function(req, res){
         req.flash('info', "Please select language" );
     }
     else {
-        console.log(language)
-        greetings.greet(language, textArea);
-        greetings.pushNames(textArea)
+        
+        await greetings.greet(language, textArea);
+        await greetings.pushNames(textArea)
     }
 
     res.redirect("/")

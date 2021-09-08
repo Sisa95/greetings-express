@@ -46,12 +46,14 @@
             <div class="col-md-4">
                 <button class="btn btn-1 btn-sep icon-info" class="btn" type="submit">Greet</button>
             </div>
-
-            {{!-- <div class="col-md-4">
-                <button class="btn btn-1 btn-sep icon-info btnClear"></button>
-            </div> --}}
-        </div>
     </form>
+            <div class="col-md-4">
+                <form action="/reset" method="POST">
+                 <button class="btn btn-1 btn-sep icon-info btnClear" type="submit"> Reset</button>
+                </form>
+            </div>
+        </div>
+
         <div class="col-md-12" id="fe">
     <p style="text-align: center; font-style: oblique;" id="myList">{{message}}</p>
 </div>

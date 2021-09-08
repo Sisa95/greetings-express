@@ -19,10 +19,10 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:code
 
 const pool = new Pool({
     connectionString,
-    ssl : useSSL
-  });
-
-
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
 const app = express();
 
@@ -60,7 +60,7 @@ app.get('/',async function(req,res){
    
     res.render('index', {
         
-        counter: greetings.Counter(),
+        counter: await greetings.Counter(),
         message : greeting
     });
 });
@@ -83,14 +83,16 @@ app.post('/', async (req, res) => {
     res.redirect("/")
 });
 
-app.get("/greeted_names",function(req, res){
-
-    res.render("greeted_names", {list: greetings.dataList()})
+app.get("/greeted_names",async (req, res) =>{
+   
+    res.render("greeted_names", {list: await greetings.dataList()})
+    console.log(await greetings.dataList())
 })
 
-app.get("/counter/:textArea",function(req, res){
+app.get("/counter/:textArea",async (req, res) =>{
  let namesGreet = req.params.textArea;
- let namesCountered = greetings.dataList()
+ let namesCountered = await greetings.dataList()
+ 
  console.log(namesCountered)
 
     res.render("count_x_greeted", {
@@ -99,7 +101,7 @@ app.get("/counter/:textArea",function(req, res){
     })
 })
 
-const PORT = process.env.PORT || 3011;
+const PORT = process.env.PORT || 3012;
 
 app.listen(PORT, function(){
     console.log("App started at:", PORT)

@@ -1,6 +1,6 @@
 module.exports = function greetings(pool) {
 
-    let data = [];
+    //let data = [];
     var message = "";
 
     //create map
@@ -51,7 +51,7 @@ module.exports = function greetings(pool) {
         return message;
     }
 
-    function pushNames(textArea) {
+    async function pushNames(textArea) {
 
         var lowerCase = escape(textArea).toLowerCase();
         var index = escape(textArea).charAt(0).toUpperCase(); //Changing case format of the 1st character.
@@ -74,19 +74,25 @@ module.exports = function greetings(pool) {
 
     }
 
-    function clearTextInput(textArea) {
-        textArea = ""
-        alert(textArea)
-        return textArea
+    async function resetDatabase() {
+        return await pool.query("DELETE FROM greet WHERE user_id > 0");
     }
 
-    function Counter() {
-        var storedNames = Object.keys(namesList);
-        return storedNames.length
+    async function Counter() {
+        try {
+            var storedNames = await pool.query("SELECT name FROM greet");
+
+            return storedNames.rowCount;
+        } catch (err) {
+            console.log("error message : ", err);
+            throw (err);
+        }
     }
 
-    function dataList() {
-        return namesList;
+    async function dataList() {
+        var greetedNameList = {}
+        greetedNameList = await pool.query(`SELECT name FROM greet`)
+        return greetedNameList.rows
     }
 
     function errorMessages(language, textArea) {
@@ -103,7 +109,7 @@ module.exports = function greetings(pool) {
     return {
         greet,
         dataList,
-        clearTextInput,
+        resetDatabase,
         pushNames,
         Counter,
         errorMessages,

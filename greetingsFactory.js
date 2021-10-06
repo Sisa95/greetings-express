@@ -46,7 +46,6 @@ module.exports = function greetings(pool) {
         }
     }
 
-
     function greetFunction() {
         return message;
     }
@@ -66,7 +65,8 @@ module.exports = function greetings(pool) {
             return "Invalid name";
         }
 
-        if (namesList[textArea] === undefined) {
+        if 
+        (namesList[textArea] === undefined) {
             namesList[textArea] = 1
         } else {
             namesList[textArea]++;
@@ -74,11 +74,7 @@ module.exports = function greetings(pool) {
 
     }
 
-    async function resetDatabase() {
-        return await pool.query("DELETE FROM greet WHERE user_id > 0");
-    }
-
-    async function Counter() {
+    async function counter() {
         try {
             var storedNames = await pool.query("SELECT name FROM greet");
 
@@ -94,6 +90,15 @@ module.exports = function greetings(pool) {
         greetedNameList = await pool.query(`SELECT name FROM greet`)
         return greetedNameList.rows
     }
+
+    async function resetDatabase() {
+        return await pool.query("DELETE FROM greet WHERE user_id > 0");
+    }
+
+    // async function timesUserGreeted(textArea){
+    //     var selectedName = await pool.query("SELECT counter greet WHERE name = $1",[textArea]).rows
+    //     return selectedName.counter;
+    // }
 
     function errorMessages(language, textArea) {
         if (language === null && textArea === "") {
@@ -111,8 +116,9 @@ module.exports = function greetings(pool) {
         dataList,
         resetDatabase,
         pushNames,
-        Counter,
+        counter,
         errorMessages,
-        greetFunction
+        greetFunction,
+        timesUserGreeted
     }
 }

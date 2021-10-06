@@ -19,7 +19,9 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:code
 
 const pool = new Pool({
     connectionString,
-    ssl: useSSL
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 const app = express();
@@ -58,9 +60,12 @@ app.get('/',async function(req,res){
    
     res.render('index', {
         
+        
         counter: await greetings.Counter(),
         message : greeting
     });
+
+   // console.log("number of database rows " + greetings.Counter())
 });
 
 app.post('/', async (req, res) => {
@@ -87,16 +92,22 @@ app.get("/greeted_names",async (req, res) =>{
     console.log(await greetings.dataList())
 })
 
-app.get("/counter/:textArea",async (req, res) =>{
- let namesGreet = req.params.textArea;
- let namesCountered = await greetings.dataList()
+// app.get("/counter/:textArea",async (req, res) =>{
+//  let namesGreet = req.params.textArea;
+//  let namesCountered = await greetings.timesUserGreeted(namesGreet)
  
- console.log(namesCountered)
+//  console.log(namesCountered)
 
-    res.render("count_x_greeted", {
-        textArea: namesGreet,
-        counter: namesCountered[namesGreet]
-    })
+//     res.render("count_x_greeted", {
+//         textArea: namesGreet,
+//         counter: namesCountered[namesGreet]
+//     })
+// })
+
+app.post("/reset", async (req, res) =>{
+    req.flash("info", "Database has been successfully reset");
+    await greetings.resetDatabase();
+    res.redirect("/");
 })
 
 const PORT = process.env.PORT || 3012;

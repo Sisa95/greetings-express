@@ -62,4 +62,16 @@
 </div>
 </div>
 
+<script>
+    var changeColour = document.querySelector(".errorMsg");
+    if(changeColour.innerHTML == "Database has been successfully reset"){
+        changeColour.style.color = "green";
+
+        setTimeout(function(){ 
+            changeColour.style.color = "";
+            changeColour.innerHTML = "";
+        }, 1500);
+    }
+</script>
+
 

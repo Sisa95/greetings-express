@@ -18,7 +18,8 @@ module.exports = function greetings(pool) {
             var isValid = regex.test(textArea);
 
             if (!isValid) {
-                return "Invalid name";
+                message = "Hello, " + textArea;
+                "Invalid name";
             }
 
             var namesFromDB = await pool.query(`SELECT name FROM greet WHERE name = $1`, [textArea]);
@@ -50,30 +51,6 @@ module.exports = function greetings(pool) {
         return message;
     }
 
-    async function pushNames(textArea) {
-
-        var lowerCase = escape(textArea).toLowerCase();
-        var index = escape(textArea).charAt(0).toUpperCase(); //Changing case format of the 1st character.
-        var del = escape(lowerCase).slice(1) //removing 1st character the name input
-
-        textArea = index + del;
-
-        var regex = /^[A-Za-z ]+$/;
-        var isValid = regex.test(textArea);
-
-        if (!isValid) {
-            return "Invalid name";
-        }
-
-        if 
-        (namesList[textArea] === undefined) {
-            namesList[textArea] = 1
-        } else {
-            namesList[textArea]++;
-        }
-
-    }
-
     async function counter() {
         try {
             var storedNames = await pool.query("SELECT name FROM greet");
@@ -87,18 +64,29 @@ module.exports = function greetings(pool) {
 
     async function dataList() {
         var greetedNameList = {}
-        greetedNameList = await pool.query(`SELECT name FROM greet`)
+        greetedNameList = await pool.query(`SELECT name, counter FROM greet`)
         return greetedNameList.rows
+    }
+
+    async function userCounter(name){
+        let allUsers = await dataList()
+       // console.log("filtered users ", allUsers)
+        let filteredUser = allUsers.filter(user => { 
+            return user.name === name;
+        })
+
+        return filteredUser; 
     }
 
     async function resetDatabase() {
         return await pool.query("DELETE FROM greet WHERE user_id > 0");
     }
 
-    // async function timesUserGreeted(textArea){
-    //     var selectedName = await pool.query("SELECT counter greet WHERE name = $1",[textArea]).rows
-    //     return selectedName.counter;
-    // }
+    async function timesUserGreeted(name){
+        var selectedName = await pool.query("SELECT * FROM greet WHERE name = $1",[name]).rows
+        console.log("select names ", selectedName)
+        return selectedName.name
+    }
 
     function errorMessages(language, textArea) {
         if (language === null && textArea === "") {
@@ -115,10 +103,10 @@ module.exports = function greetings(pool) {
         greet,
         dataList,
         resetDatabase,
-        pushNames,
         counter,
         errorMessages,
         greetFunction,
-        timesUserGreeted
+        timesUserGreeted,
+        userCounter
     }
 }

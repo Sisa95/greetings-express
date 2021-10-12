@@ -61,21 +61,33 @@ app.get('/',async function(req,res){
     res.render('index', {
         
         
-        counter: await greetings.Counter(),
+        counter: await greetings.counter(),
         message : greeting
     });
-
    // console.log("number of database rows " + greetings.Counter())
 });
 
 app.post('/', async (req, res) => {
 
     let {textArea, language} = req.body;
+
+    if (language === null && textArea === "") {
+        return "Please Select Language And Enter Name";
+    } else if (language === null) {
+        return "Please Select Language";
+
+    } else if (textArea === "") {
+        return "Please Enter Name";
+    }
+
+
   
     if(textArea === ''){
-        req.flash('info', 'Please enter name and select language');
+        req.flash('info', 'Please enter name');
     } else if(language === undefined){
         req.flash('info', "Please select language" );
+    } else if(textArea ==='' && language === null){
+        
     }
     else {
         
@@ -92,17 +104,24 @@ app.get("/greeted_names",async (req, res) =>{
     console.log(await greetings.dataList())
 })
 
-// app.get("/counter/:textArea",async (req, res) =>{
-//  let namesGreet = req.params.textArea;
-//  let namesCountered = await greetings.timesUserGreeted(namesGreet)
+app.get("/count_x_greeted/:textArea",async (req, res) =>{
  
-//  console.log(namesCountered)
 
-//     res.render("count_x_greeted", {
-//         textArea: namesGreet,
-//         counter: namesCountered[namesGreet]
-//     })
-// })
+        try{
+            let namesGreet = req.params.textArea;
+    let namesCountered = await greetings.userCounter(namesGreet)
+    
+    console.log("users ", namesCountered)
+
+        res.render("count_x_greeted", {
+            name: namesGreet,
+            user: namesCountered[0]
+        })
+
+        }catch(err){
+    console.log(err)
+        }
+})
 
 app.post("/reset", async (req, res) =>{
     req.flash("info", "Database has been successfully reset");

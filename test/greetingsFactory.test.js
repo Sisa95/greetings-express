@@ -14,7 +14,7 @@ beforeEach(async function () {
 
 //let greeting = greetings()
 describe('Greetings', async () => {
-    it("Should be able to greet the people in different languages", async () => {
+    it("Should be able to greet people in different languages", async () => {
 
         beforeEach(async function () {
             let greeting = greetings(pool);
@@ -50,40 +50,34 @@ describe('Greetings', async () => {
         assert.equal(2, count);
     });
 
-    it("Should be able to display how many times a user has been greeted", async () => {
+    it("Should be able to display a 'Please Select Language' ", async () => {
         let greeting = greetings(pool);
 
-        await greeting.greet("shona", "Sula");
-        await greeting.greet("english", "Sula");
-        await greeting.greet("zulu", "Sula");
-        await greeting.greet("english", "Sula");
+        await greeting.greet(undefined, "Sula");
 
-
-
-        var count = await greeting.userCounter("Sula");
-
-        assert.deepEqual([ { name: 'Sula', counter: 4 } ],count);
+        assert.equal("Please Select Language",await greeting.errorMessages());
     });
 
-   
-   
-    // it("Should not count a name that has as already been greeted", async() => {
-    //     let greeting = greetings();
+    // it("Should be able to display a '' ", async () => {
+    //     let greeting = greetings(pool);
 
-    //     greeting.pushNames("Sisa");
-    //     greeting.pushNames("Sisa");
-    //     greeting.pushNames("Ponye");
-
-    //     assert.equal(2, greeting.counter());
+    //     await greeting.greet(undefined, ); 
+    //     assert.equal("Please Enter Name",await greeting.errorMessages());
     // });
+   
+     // await greeting.greet(undefined, ""); 
+        // assert.equal("Please Select Language And Enter Name",await greeting.errorMessages());
+        // await greeting.greet("shona", ""); 
+        // assert.equal("Please Enter Name",await greeting.errorMessages());
+    
 
-    // it("Should display 0 when there are no people greeted", async() => {
-    //     let greeting = greetings();
+    it("Should display 0 when there are no people greeted", async() => {
+        let greeting = greetings(pool);
 
-    //     greeting.dataList();
+        await greeting.dataList();
 
-    //     assert.equal(0, greeting.counter());
-    // });
+        assert.equal(0, await greeting.userCounter());
+    });
 
     // it("Should return an error message \"Please Enter Name\"", async() => {
     //     let greeting = greetings();

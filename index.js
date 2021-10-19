@@ -71,23 +71,13 @@ app.post('/', async (req, res) => {
 
     let {textArea, language} = req.body;
 
-    if (language === null && textArea === "") {
-        return "Please Select Language And Enter Name";
-    } else if (language === null) {
-        return "Please Select Language";
+    if(textArea ==='' && language === undefined){
+        req.flash('info', 'Please Select Language And Enter Name');
 
-    } else if (textArea === "") {
-        return "Please Enter Name";
-    }
-
-
-  
-    if(textArea === ''){
+    } else if(textArea === ''){
         req.flash('info', 'Please enter name');
     } else if(language === undefined){
         req.flash('info', "Please select language" );
-    } else if(textArea ==='' && language === null){
-        
     }
     else {
         
@@ -129,7 +119,7 @@ app.post("/reset", async (req, res) =>{
     res.redirect("/");
 })
 
-const PORT = process.env.PORT || 3012;
+const PORT = process.env.PORT || 3018;
 
 app.listen(PORT, function(){
     console.log("App started at:", PORT)

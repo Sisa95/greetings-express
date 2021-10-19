@@ -78,6 +78,30 @@ module.exports = function greetings(pool) {
         return filteredUser; 
     }
 
+    async function pushNames(textArea) {
+
+        var lowerCase = escape(textArea).toLowerCase();
+        var index = escape(textArea).charAt(0).toUpperCase(); //Changing case format of the 1st character.
+        var del = escape(lowerCase).slice(1) //removing 1st character the name input
+
+        textArea = index + del;
+
+        var regex = /^[A-Za-z ]+$/;
+        var isValid = regex.test(textArea);
+
+        if (!isValid) {
+            return "Invalid name";
+        }
+
+        if 
+        (namesList[textArea] === undefined) {
+            namesList[textArea] = 1
+        } else {
+            namesList[textArea]++;
+        }
+
+    }
+
     async function resetDatabase() {
         return await pool.query("DELETE FROM greet WHERE user_id > 0");
     }
@@ -89,9 +113,9 @@ module.exports = function greetings(pool) {
     }
 
     function errorMessages(language, textArea) {
-        if (language === null && textArea === "") {
+        if (language === undefined && textArea === "") {
             return "Please Select Language And Enter Name";
-        } else if (language === null) {
+        } else if (language === undefined) {
             return "Please Select Language";
 
         } else if (textArea === "") {
@@ -107,6 +131,7 @@ module.exports = function greetings(pool) {
         errorMessages,
         greetFunction,
         timesUserGreeted,
-        userCounter
+        userCounter,
+        pushNames
     }
 }

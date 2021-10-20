@@ -1,6 +1,5 @@
-module.exports = function greetings(pool) {
+module.exports = function greetingsInstance(pool) {
 
-    //let data = [];
     var message = "";
 
     //create map
@@ -23,13 +22,15 @@ module.exports = function greetings(pool) {
             }
 
             var namesFromDB = await pool.query(`SELECT name FROM greet WHERE name = $1`, [textArea]);
-
+        
             if (namesFromDB.rowCount === 0) {
                 await pool.query(`INSERT INTO greet (name, counter) VALUES ($1,$2)`, [textArea, 1])
             }
             else {
                 await pool.query(`UPDATE greet SET counter = counter +1 WHERE name = $1`, [textArea])
             }
+              
+            errorMessages(language,textArea);
 
             if (language === "english") {
                 message = "Hello, " + textArea;
@@ -113,13 +114,14 @@ module.exports = function greetings(pool) {
     }
 
     function errorMessages(language, textArea) {
+    
         if (language === undefined && textArea === "") {
             return "Please Select Language And Enter Name";
         } else if (language === undefined) {
             return "Please Select Language";
 
         } else if (textArea === "") {
-            return "Please Enter Name";
+          return "Please Enter Name";
         }
     }
 

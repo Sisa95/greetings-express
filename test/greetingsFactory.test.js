@@ -52,9 +52,17 @@ describe('Greetings', async () => {
     it("Should be able to display a 'Please Select Language' ", async () => {
         let greeting = greetingsInstance(pool);
 
-        await greeting.greet(undefined, "Sula");
+        let grtMsg = await greeting.greet('', "Sula");
 
-        assert.equal("Please Select Language",await greeting.errorMessages());
+        assert.equal("Please Select Language",grtMsg);
+    });
+
+    it("Should return an error message Enter Name", async() => {
+        let greeting = greetingsInstance(pool);
+
+        let grtMsg = await greeting.greet("shona", "");
+
+    assert.equal("Please Enter Name",grtMsg);
     });
 
 
@@ -63,20 +71,10 @@ describe('Greetings', async () => {
 
         let grtMsg = await greeting.greet("", "");
 
-    //await greeting.greet(undefined, ""); 
-    assert.equal(undefined,grtMsg);
+    assert.equal("Please Select Language And Enter Name",grtMsg);
     });
 
 
-
-    // it("Should be able to display a '' ", async () => {
-    //     let greeting = greetingsInstance(pool);
-
-    //     await greeting.greet(undefined, ); 
-    //     assert.equal("Please Enter Name",await greeting.errorMessages());
-    // });
-   
-    
 
     it("Should display 0 when there are no people greeted", async() => {
         let greeting = greetingsInstance(pool);

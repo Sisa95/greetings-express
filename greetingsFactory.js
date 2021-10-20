@@ -17,28 +17,30 @@ module.exports = function greetingsInstance(pool) {
             var isValid = regex.test(textArea);
 
             if (!isValid) {
-                message = "Hello, " + textArea;
-                "Invalid name";
+                return errorMessages(language, textArea)
             }
+            if (isValid) {
 
-            var namesFromDB = await pool.query(`SELECT name FROM greet WHERE name = $1`, [textArea]);
-        
-            if (namesFromDB.rowCount === 0) {
-                await pool.query(`INSERT INTO greet (name, counter) VALUES ($1,$2)`, [textArea, 1])
-            }
-            else {
-                await pool.query(`UPDATE greet SET counter = counter +1 WHERE name = $1`, [textArea])
-            }
-              
-            errorMessages(language,textArea);
+                var namesFromDB = await pool.query(`SELECT name FROM greet WHERE name = $1`, [textArea]);
 
-            if (language === "english") {
-                message = "Hello, " + textArea;
-            } else if (language === "shona") {
-                message = "Mhoro, " + textArea;
+                if (namesFromDB.rowCount === 0) {
+                    await pool.query(`INSERT INTO greet (name, counter) VALUES ($1,$2)`, [textArea, 1])
+                }
+                else {
+                    await pool.query(`UPDATE greet SET counter = counter +1 WHERE name = $1`, [textArea])
+                }
 
-            } else if (language === "zulu") {
-                message = "Sawubona, " + textArea;
+                
+                if (language === "english") {
+                    message = "Hello, " + textArea;
+                } else if (language === "shona") {
+                    message = "Mhoro, " + textArea;
+                    
+                } else if (language === "zulu") {
+                    message = "Sawubona, " + textArea;
+                }
+
+                return errorMessages(language, textArea);
             }
 
         }
@@ -69,14 +71,14 @@ module.exports = function greetingsInstance(pool) {
         return greetedNameList.rows
     }
 
-    async function userCounter(name){
+    async function userCounter(name) {
         let allUsers = await dataList()
-       // console.log("filtered users ", allUsers)
-        let filteredUser = allUsers.filter(user => { 
+        // console.log("filtered users ", allUsers)
+        let filteredUser = allUsers.filter(user => {
             return user.name === name;
         })
 
-        return filteredUser; 
+        return filteredUser;
     }
 
     async function pushNames(textArea) {
@@ -94,8 +96,8 @@ module.exports = function greetingsInstance(pool) {
             return "Invalid name";
         }
 
-        if 
-        (namesList[textArea] === undefined) {
+        if
+            (namesList[textArea] === undefined) {
             namesList[textArea] = 1
         } else {
             namesList[textArea]++;
@@ -107,21 +109,23 @@ module.exports = function greetingsInstance(pool) {
         return await pool.query("DELETE FROM greet WHERE user_id > 0");
     }
 
-    async function timesUserGreeted(name){
-        var selectedName = await pool.query("SELECT * FROM greet WHERE name = $1",[name]).rows
+    async function timesUserGreeted(name) {
+        var selectedName = await pool.query("SELECT * FROM greet WHERE name = $1", [name]).rows
         console.log("select names ", selectedName)
         return selectedName.name
     }
 
     function errorMessages(language, textArea) {
-    
-        if (language === undefined && textArea === "") {
+
+        if (!language && !textArea) {
             return "Please Select Language And Enter Name";
-        } else if (language === undefined) {
+        } else if (!language) {
             return "Please Select Language";
 
-        } else if (textArea === "") {
-          return "Please Enter Name";
+        } else if (!textArea) {
+            return "Please Enter Name";
+        } else{
+            return "Invalid Name"
         }
     }
 

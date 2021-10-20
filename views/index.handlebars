@@ -44,18 +44,19 @@
 
         <div class="row">
             <div class="col-md-4">
-                <button class="btn btn-1 btn-sep icon-info" class="btn" type="submit">Greet</button>
+                <button class="btn btn-1 btn-sep icon-info " class="btn" type="submit">Greet</button>
             </div>
     </form>
             <div class="col-md-4">
                 <form action="/reset" method="POST">
-                 <button class="btn btn-1 btn-sep icon-info btnClear" type="submit" value=""> Reset</button>
+
+                 <button class="btn btn-1 btn-sep icon-info btnClear mt-1" type="submit" value=""> Reset</button>
                 </form>
             </div>
         </div>
 
         <div class="col-md-12" id="fe">
-    <p style="text-align: center; font-style: oblique;" id="myList">{{message}}</p>
+    <p style="text-align: center; font-style: oblique;" class ="myList" id="myList">{{message}}</p>
 </div>
 <div class="col-md-12" id="fe">
      <a href="/greeted_names" style="color: rgb(0, 22, 63); font-size: 1.2rem">Greeted Names</a>
@@ -63,19 +64,25 @@
 </div>
 
 <script>
-    var changeColour = document.querySelector(".errorMsg");
+    const changeColour = document.querySelector(".errorMsg");
+    const message =  document.querySelector(".myList");
+     //alert(message)
+    
     if(changeColour.innerHTML == "Database has been successfully reset"){
         changeColour.style.color = "green";
-
-        setTimeout(function(){ 
+        setTimeout(function(){
+              
             changeColour.style.color = "";
             changeColour.innerHTML = "";
+            message.innerHTML = "";
+
         }, 1500);
+       
     } else if(changeColour.innerHTML == "Please enter name" || "Please select language"){
             setTimeout(function(){ 
-            changeColour.style.color = "";
-            changeColour.innerHTML = "";
-        }, 1500);
+                changeColour.style.color = "";
+                changeColour.innerHTML = "";
+            }, 1500);
     }
 </script>
 

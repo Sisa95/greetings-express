@@ -1,7 +1,7 @@
 module.exports = function (greetingsInstance) {
     async function homeRoute(req, res) {
         let greeting = await greetingsInstance.greetFunction();
-        console.log(greeting)
+       
 
         res.render('index', {
 
@@ -22,10 +22,11 @@ module.exports = function (greetingsInstance) {
         } else if (language === undefined) {
             req.flash('info', "Please select language");
         }
+        
         else {
 
-            await greetings.greet(language, textArea);
-            await greetings.pushNames(textArea)
+            await greetingsInstance.greet(language, textArea);
+            await greetingsInstance.pushNames(textArea)
         }
         res.redirect("/")
     }

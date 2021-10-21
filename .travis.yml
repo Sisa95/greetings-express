@@ -2,11 +2,11 @@ anguage: node_js
 node_js:
   - 12
 env:
-  - 'DATABASE_URL=postgresql://postgres@localhost:5432/test'
+  - 'DATABASE_URL=postgresql://postgres@localhost:5432/greeting'
 before_script:
   - npm install
-  - psql -c 'create database  greet;' -U postgres
-  - psql -U postgres -d greet -a -f greeting.sql
+  - psql -c 'create database  greeting;' -U postgres
+  - psql -U postgres -d greeting -a -f greeting.sql
 services:
   - postgresql
 addons:

@@ -1,6 +1,11 @@
 module.exports = function (greetingsInstance) {
     async function homeRoute(req, res) {
         let greeting = await greetingsInstance.greetFunction();
+
+        // if(greeting =="Invalid name"){
+        //     console.log("Invalid name")
+        //     req.flash('info', "Invalid name");
+        // }
        
 
         res.render('index', {

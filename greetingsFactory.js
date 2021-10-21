@@ -16,9 +16,6 @@ module.exports = function greetingsInstance(pool) {
             var regex = /^[A-Za-z ]+$/;
             var isValid = regex.test(textArea);
 
-            if (!isValid) {
-                return errorMessages(language, textArea)
-            }
             if (isValid) {
 
                 var namesFromDB = await pool.query(`SELECT name FROM greet WHERE name = $1`, [textArea]);
@@ -29,8 +26,7 @@ module.exports = function greetingsInstance(pool) {
                 else {
                     await pool.query(`UPDATE greet SET counter = counter +1 WHERE name = $1`, [textArea])
                 }
-
-                
+               
                 if (language === "english") {
                     message = "Hello, " + textArea;
                 } else if (language === "shona") {
@@ -47,6 +43,9 @@ module.exports = function greetingsInstance(pool) {
         catch (err) {
             console.error('Error at greet', err);
             throw err;
+        }
+        if (!isValid) {
+            message = "Invalid name"
         }
     }
 
@@ -116,13 +115,13 @@ module.exports = function greetingsInstance(pool) {
     }
 
     function errorMessages(language, textArea) {
-
+        
         if (!language && !textArea) {
             return "Please Select Language And Enter Name";
         } else if (!language) {
             return "Please Select Language";
 
-        } else if (!textArea) {
+        } else if (!textArea || textArea == undefined) {
             return "Please Enter Name";
         } else{
             return "Invalid Name"

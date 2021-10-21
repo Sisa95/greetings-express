@@ -5,8 +5,8 @@ env:
   - 'DATABASE_URL=postgresql://postgres@localhost:5432/test'
 before_script:
   - npm install
-  - psql -c 'create database  test;' -U postgres
-  - psql -U postgres -d test -a -f database.sql
+  - psql -c 'create database  greet;' -U postgres
+  - psql -U postgres -d greet -a -f greeting.sql
 services:
   - postgresql
 addons:

@@ -65,7 +65,6 @@ describe('Greetings', async () => {
     assert.equal(undefined,grtMsg);
     });
 
-
     it("Should return an error message Please Select Language And Enter Name", async() => {
         let greeting = greetingsInstance(pool);
 
@@ -74,8 +73,6 @@ describe('Greetings', async () => {
     assert.equal(undefined,grtMsg);
     });
 
-
-
     it("Should display 0 when there are no people greeted", async() => {
         let greeting = greetingsInstance(pool);
 
@@ -83,17 +80,4 @@ describe('Greetings', async () => {
 
         assert.equal(0, await greeting.userCounter());
     });
-    
-
-    // it("Should return an error message \"Please Select Language\"", function(){
-    //     let greeting = greetingsInstance();
-
-    //     assert.equal("Please Select Language",greeting.errorMessages(null, "Sisa"));
-    // });
-
-    // it("Should return an error message \"Please Enter Name and Select Language\"", function(){
-    //     let greeting = greetingsInstance();
-
-    //     assert.equal("Please Select Language And Enter Name", greeting.errorMessages(null, ""));
-    // });
 });

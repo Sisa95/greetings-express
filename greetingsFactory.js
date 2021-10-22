@@ -1,10 +1,6 @@
 module.exports = function greetingsInstance(pool) {
 
     var message = "";
-
-    //create map
-    var namesList = {};
-
     async function greet(language, textArea) {
 
         try {
@@ -17,7 +13,6 @@ module.exports = function greetingsInstance(pool) {
             var isValid = regex.test(textArea);
 
             if (isValid) {
-
                 var namesFromDB = await pool.query(`SELECT name FROM greet WHERE name = $1`, [textArea]);
 
                 if (namesFromDB.rowCount === 0) {
@@ -30,19 +25,15 @@ module.exports = function greetingsInstance(pool) {
                 if (language === "english") {
                     message = "Hello, " + textArea;
                 } else if (language === "shona") {
-                    message = "Mhoro, " + textArea;
-                    
+                    message = "Mhoro, " + textArea;   
                 } else if (language === "zulu") {
                     message = "Sawubona, " + textArea;
                 }
-
-                return errorMessages(language, textArea);
             }
 
         }
         catch (err) {
-            console.error('Error at greet', err);
-            throw err;
+            return errorMessages(language, textArea);
         }
         if (!isValid) {
             message = "Invalid name"
@@ -72,36 +63,11 @@ module.exports = function greetingsInstance(pool) {
 
     async function userCounter(name) {
         let allUsers = await dataList()
-        // console.log("filtered users ", allUsers)
         let filteredUser = allUsers.filter(user => {
             return user.name === name;
         })
 
         return filteredUser;
-    }
-
-    async function pushNames(textArea) {
-
-        var lowerCase = escape(textArea).toLowerCase();
-        var index = escape(textArea).charAt(0).toUpperCase(); //Changing case format of the 1st character.
-        var del = escape(lowerCase).slice(1) //removing 1st character the name input
-
-        textArea = index + del;
-
-        var regex = /^[A-Za-z ]+$/;
-        var isValid = regex.test(textArea);
-
-        if (!isValid) {
-            return "Invalid name";
-        }
-
-        if
-            (namesList[textArea] === undefined) {
-            namesList[textArea] = 1
-        } else {
-            namesList[textArea]++;
-        }
-
     }
 
     async function resetDatabase() {
@@ -114,13 +80,11 @@ module.exports = function greetingsInstance(pool) {
         return selectedName.name
     }
 
-    function errorMessages(language, textArea) {
-        
+    function errorMessages(language, textArea) { 
         if (!language && !textArea) {
             return "Please Select Language And Enter Name";
         } else if (!language) {
             return "Please Select Language";
-
         } else if (!textArea || textArea == undefined) {
             return "Please Enter Name";
         } else{
@@ -136,7 +100,6 @@ module.exports = function greetingsInstance(pool) {
         errorMessages,
         greetFunction,
         timesUserGreeted,
-        userCounter,
-        pushNames
+        userCounter
     }
 }

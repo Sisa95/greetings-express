@@ -31,7 +31,7 @@ module.exports = function (greetingsInstance) {
         else {
 
             await greetingsInstance.greet(language, textArea);
-            await greetingsInstance.pushNames(textArea)
+            // await greetingsInstance.pushNames(textArea)
         }
         res.redirect("/")
     }

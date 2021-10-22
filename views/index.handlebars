@@ -1,26 +1,28 @@
 <form action="/" method="POST">
 
-<div class="container-fluid demo  border border-info">
-    
-    <div class="col-md-9" id="fe">
-        <h1 style="text-align: center;">Greetings</h1>
-    </div>
+    <div class="container-fluid demo  border border-info">
 
-    <div class="col-md-12" id="fe">
-        <h4 style="text-align: center; font-family: 'Fjalla One', sans-serif; color:red" class="errorMsg">{{messages.info}}</h4>
-    </div>
+        <div class="col-md-9" id="fe">
+            <h1 style="text-align: center;">Greetings</h1>
+        </div>
 
-    <div class="col-md-9" id="fe">
-        <h4 style="text-align: justify; font-size: 1.2em">Please Enter A Name With No Special Characters or Numbers and
-            Select Language</h4>
-    </div>
+        <div class="col-md-12" id="fe">
+            <h4 style="text-align: center; font-family: 'Fjalla One', sans-serif; color:red" class="errorMsg">
+                {{messages.info}}</h4>
+        </div>
+
+        <div class="col-md-9" id="fe">
+            <h4 style="text-align: justify; font-size: 1.2em">Please Enter A Name With No Special Characters or Numbers
+                and
+                Select Language</h4>
+        </div>
 
         <div class="row">
 
             <div class="col-md-8">
                 <textarea class="text"
-                    style="margin:auto;text-align:center; font-style: oblique;font-weight: 500; color: blue;"
-                    rows="1" name="textArea" ></textarea>
+                    style="margin:auto;text-align:center; font-style: oblique;font-weight: 500; color: blue;" rows="1"
+                    name="textArea"></textarea>
             </div>
             <div class="col-md-4">
                 <h4>
@@ -46,44 +48,49 @@
             <div class="col-md-4">
                 <button class="btn btn-1 btn-sep icon-info " class="btn" type="submit">Greet</button>
             </div>
+</form>
+<div class="col-md-4">
+    <form action="/reset" method="POST">
+
+        <button class="btn btn-1 btn-sep icon-info btnClear mt-1" type="submit" value=""> Reset</button>
     </form>
-            <div class="col-md-4">
-                <form action="/reset" method="POST">
+</div>
+</div>
 
-                 <button class="btn btn-1 btn-sep icon-info btnClear mt-1" type="submit" value=""> Reset</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-md-12" id="fe">
-    <p style="text-align: center; font-style: oblique;" class ="myList" id="myList">{{message}}</p>
+<div class="col-md-12" id="fe">
+    <p style="text-align: center; font-style: oblique;" class="myList" id="myList">{{message}}</p>
 </div>
 <div class="col-md-12" id="fe">
-     <a href="/greeted_names" style="color: rgb(0, 22, 63); font-size: 1.2rem">Greeted Names</a>
+    <a href="/greeted_names" style="color: rgb(0, 22, 63); font-size: 1.2rem">Greeted Names</a>
 </div>
 </div>
 
 <script>
     const changeColour = document.querySelector(".errorMsg");
-    const message =  document.querySelector(".myList");
-     //alert(message)
-    
-    if(changeColour.innerHTML == "Database has been successfully reset"){
-        changeColour.style.color = "green";
-        setTimeout(function(){
-              
+    const message = document.querySelector(".myList");
+
+
+    if (message.innerHTML === "Invalid name") {
+        message.innerHTML = ''
+        changeColour.innerHTML = "Invalid name";
+        setTimeout(function () {
+
             changeColour.style.color = "";
             changeColour.innerHTML = "";
             message.innerHTML = "";
 
         }, 1500);
-       
-    } else if(changeColour.innerHTML == "Please enter name" || "Please select language"){
-            setTimeout(function(){ 
-                changeColour.style.color = "";
-                changeColour.innerHTML = "";
-            }, 1500);
+
+    }
+
+    if (changeColour.innerHTML == "Database has been successfully reset") {
+        changeColour.style.color = "green";
+        setTimeout(function () {
+
+            changeColour.style.color = "";
+            changeColour.innerHTML = "";
+            message.innerHTML = "";
+
+        }, 1500);
     }
 </script>
-
-
